@@ -5,8 +5,76 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TrainDispatcher"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        x:Name="InfoTrainForm"
+        Title="Розклад потягів"
+        SizeToContent="WidthAndHeight"
+        Loaded="InfoTrainForm_Loaded"
+        Activated="InfoTrainForm_Activated">
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Menu x:Name="MainMenu"
+              Grid.Row="0"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Height="Auto"
+              BorderThickness="1,1,1,1">
+
+            <MenuItem x:Name="FileMenuItem" Header="Файл">
+                <MenuItem x:Name="LoadDataMenuItem" Header="Завантажити"
+                          Click="LoadDataMenuItem_Click"/>
+                <MenuItem x:Name="SaveDataMenuItem" Header="Зберегти"/>
+            </MenuItem>
+
+            <MenuItem x:Name="TrainsMenuItem" Header="Потяги">
+                <MenuItem x:Name="EditDataMenuItem" Header="Редагувати"/>
+                <MenuItem x:Name="AddDataMenuItem" Header="Додати"/>
+            </MenuItem>
+
+            <MenuItem x:Name="SelectMenuItem" Header="Пошук">
+                <MenuItem x:Name="SelectXMenuItem" Header="За станцією призначення"/>
+                <MenuItem x:Name="SelectXYMenuItem" Header="За часом відправлення"/>
+                <MenuItem x:Name="SelectTicketsMenuItem" Header="За наявністю квитків"/>
+            </MenuItem>
+
+            <MenuItem x:Name="AuthMenuItem" Header="Авторизація" Click="AuthMenuItem_Click"/>
+
+        </Menu>
+
+        <DataGrid x:Name="TrainListDG"
+                  Grid.Row="1"
+                  HorizontalAlignment="Left"
+                  Margin="5,5,20,10"
+                  VerticalAlignment="Top"
+                  Height="420"
+                  Width="Auto"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID"
+                                    Binding="{Binding id}"
+                                    Width="Auto"/>
+                <DataGridTextColumn Header="Номер потяга"
+                                    Binding="{Binding train_number}"
+                                    Width="Auto"/>
+                <DataGridTextColumn Header="Станція призначення"
+                                    Binding="{Binding destination}"
+                                    Width="Auto"/>
+                <DataGridTextColumn Header="Час відправлення"
+                                    Binding="{Binding departure_time}"
+                                    Width="Auto"/>
+                <DataGridTextColumn Header="Час у дорозі"
+                                    Binding="{Binding travel_time}"
+                                    Width="Auto"/>
+                <DataGridTextColumn Header="Кількість квитків"
+                                    Binding="{Binding tickets_available}"
+                                    Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
     </Grid>
 </Window>

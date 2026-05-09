@@ -34,3 +34,6 @@ x86/
 *.tmp
 *.tmp_proj
 *.log
+
+# NuGet пакети
+packages/
