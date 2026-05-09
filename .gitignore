@@ -1,0 +1,36 @@
+
+# Користувацькі файли
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Результати збірки
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Кеш Visual Studio
+.vs/
+*.vspscc
+*.vssscc
+
+# Скомпільовані файли
+*.exe
+*.pdb
+*.cache
+*.ilk
+*.lib
+*.obj
+*.iobj
+*.pch
+*.tlb
+*.tmp
+*.tmp_proj
+*.log
