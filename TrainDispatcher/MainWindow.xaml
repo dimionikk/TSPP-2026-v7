@@ -31,7 +31,8 @@
             </MenuItem>
 
             <MenuItem x:Name="TrainsMenuItem" Header="Потяги">
-                <MenuItem x:Name="EditDataMenuItem" Header="Редагувати"/>
+                <MenuItem x:Name="EditDataMenuItem" Header="Редагувати"
+                          Click="EditDataMenuItem_Click"/>
                 <MenuItem x:Name="AddDataMenuItem" Header="Додати"/>
             </MenuItem>
 
@@ -45,36 +46,85 @@
 
         </Menu>
 
-        <DataGrid x:Name="TrainListDG"
-                  Grid.Row="1"
-                  HorizontalAlignment="Left"
-                  Margin="5,5,20,10"
-                  VerticalAlignment="Top"
-                  Height="420"
-                  Width="Auto"
-                  AutoGenerateColumns="False"
-                  ItemsSource="{Binding}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID"
-                                    Binding="{Binding id}"
-                                    Width="Auto"/>
-                <DataGridTextColumn Header="Номер потяга"
-                                    Binding="{Binding train_number}"
-                                    Width="Auto"/>
-                <DataGridTextColumn Header="Станція призначення"
-                                    Binding="{Binding destination}"
-                                    Width="Auto"/>
-                <DataGridTextColumn Header="Час відправлення"
-                                    Binding="{Binding departure_time}"
-                                    Width="Auto"/>
-                <DataGridTextColumn Header="Час у дорозі"
-                                    Binding="{Binding travel_time}"
-                                    Width="Auto"/>
-                <DataGridTextColumn Header="Кількість квитків"
-                                    Binding="{Binding tickets_available}"
-                                    Width="Auto"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+            <DataGrid x:Name="TrainListDG"
+                      HorizontalAlignment="Left"
+                      Margin="5,5,20,10"
+                      VerticalAlignment="Top"
+                      Height="420"
+                      Width="Auto"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding}"
+                      MouseDoubleClick="TrainListDG_MouseDoubleClick">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID"
+                                        Binding="{Binding id}"
+                                        Width="Auto"/>
+                    <DataGridTextColumn Header="Номер потяга"
+                                        Binding="{Binding train_number}"
+                                        Width="Auto"/>
+                    <DataGridTextColumn Header="Станція призначення"
+                                        Binding="{Binding destination}"
+                                        Width="Auto"/>
+                    <DataGridTextColumn Header="Час відправлення"
+                                        Binding="{Binding departure_time}"
+                                        Width="Auto"/>
+                    <DataGridTextColumn Header="Час у дорозі"
+                                        Binding="{Binding travel_time}"
+                                        Width="Auto"/>
+                    <DataGridTextColumn Header="Кількість квитків"
+                                        Binding="{Binding tickets_available}"
+                                        Width="Auto"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <GroupBox x:Name="trainGroupBox"
+                      Header="Потяг"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      Margin="0,5,0,0"
+                      Width="220"
+                      Visibility="Hidden">
+                <Grid VerticalAlignment="Top">
+                    <Label x:Name="numTrainLabel" Content="Номер потяга"
+                           HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="numTrainTextBox"
+                             HorizontalAlignment="Left" Margin="130,12,0,0"
+                             VerticalAlignment="Top" Width="70" MaxLength="6"/>
+
+                    <Label x:Name="destTrainLabel" Content="Станція призначення"
+                           HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="destTrainTextBox"
+                             HorizontalAlignment="Left" Margin="130,42,0,0"
+                             VerticalAlignment="Top" Width="70"/>
+
+                    <Label x:Name="depTimeLabel" Content="Час відправлення"
+                           HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="depTimeTextBox"
+                             HorizontalAlignment="Left" Margin="130,72,0,0"
+                             VerticalAlignment="Top" Width="70" MaxLength="5"/>
+
+                    <Label x:Name="travTimeLabel" Content="Час у дорозі"
+                           HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="travTimeTextBox"
+                             HorizontalAlignment="Left" Margin="130,102,0,0"
+                             VerticalAlignment="Top" Width="70" MaxLength="5"/>
+
+                    <Label x:Name="ticketsLabel" Content="Кількість квитків"
+                           HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="ticketsTextBox"
+                             HorizontalAlignment="Left" Margin="130,132,0,0"
+                             VerticalAlignment="Top" Width="70" MaxLength="4"/>
+
+                    <Button x:Name="saveBtn" Content="Зберегти"
+                            HorizontalAlignment="Left" Margin="10,170,0,0"
+                            VerticalAlignment="Top" Width="75"
+                            Click="SaveBtn_Click"/>
+                </Grid>
+            </GroupBox>
+
+        </StackPanel>
 
     </Grid>
 </Window>

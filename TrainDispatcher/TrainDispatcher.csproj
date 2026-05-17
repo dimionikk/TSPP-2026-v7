@@ -106,6 +106,7 @@
     </ApplicationDefinition>
     <Compile Include="Authorization.cs" />
     <Compile Include="DataAccess.cs" />
+    <Compile Include="EditDB.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="LogInForm.xaml.cs">
       <DependentUpon>LogInForm.xaml</DependentUpon>
