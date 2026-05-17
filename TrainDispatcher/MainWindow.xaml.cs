@@ -87,6 +87,48 @@ namespace TrainDispatcher
                             "Увага!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
         }
 
+        private void AddDataMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            trainGroupBox.Visibility = Visibility.Visible;
+            TrainListDG.SelectedIndex = -1;
+
+            numTrainTextBox.Text = "";
+            destTrainTextBox.Text = "";
+            depTimeTextBox.Text = "";
+            travTimeTextBox.Text = "";
+            ticketsTextBox.Text = "";
+
+            editedRow = new EditDB();
+            editedRow.trainAdd = true;
+            editedTrain = new Train(0, "", "", TimeSpan.Zero, TimeSpan.Zero, 0);
+        }
+
+        private void DeleteDataMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (editedTrain == null || TrainListDG.SelectedIndex < 0)
+            {
+                MessageBox.Show("Оберіть у списку запис для видалення подвійним кліком",
+                                "Увага!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
+
+            MessageBoxResult result = MessageBox.Show(
+                "Ви впевнені що хочете видалити обраний запис?",
+                "Підтвердження видалення",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                editedRow.DeleteDBRow();
+                DataConnection.fList.RemoveAt(TrainListDG.SelectedIndex);
+                TrainListDG.ItemsSource = null;
+                TrainListDG.ItemsSource = DataConnection.fList;
+                editedTrain = null;
+                trainGroupBox.Visibility = Visibility.Hidden;
+            }
+        }
+
         private void TrainListDG_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             editedTrain = TrainListDG.SelectedItem as Train;
@@ -113,6 +155,17 @@ namespace TrainDispatcher
             TimeSpan depTime;
             TimeSpan travTime;
             int tickets;
+
+            if (string.IsNullOrWhiteSpace(numTrainTextBox.Text) ||
+                string.IsNullOrWhiteSpace(destTrainTextBox.Text) ||
+                string.IsNullOrWhiteSpace(depTimeTextBox.Text) ||
+                string.IsNullOrWhiteSpace(travTimeTextBox.Text) ||
+                string.IsNullOrWhiteSpace(ticketsTextBox.Text))
+            {
+                MessageBox.Show("Заповніть усі поля перед збереженням!",
+                                "Увага!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
 
             editedTrain.train_number = numTrainTextBox.Text;
             editedTrain.destination = destTrainTextBox.Text;
@@ -141,7 +194,14 @@ namespace TrainDispatcher
             }
             editedTrain.tickets_available = tickets;
 
-            DataConnection.fList[num] = editedTrain;
+            if (editedRow.trainAdd)
+            {
+                DataConnection.fList.Add(editedTrain);
+            }
+            else
+            {
+                DataConnection.fList[num] = editedTrain;
+            }
 
             TrainListDG.ItemsSource = null;
             TrainListDG.ItemsSource = DataConnection.fList;
@@ -149,15 +209,31 @@ namespace TrainDispatcher
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (editedTrain == null || TrainListDG.SelectedIndex < 0)
+            if (editedTrain == null)
             {
                 MessageBox.Show("Оберіть у списку запис для редагування подвійним кліком",
                                 "Увага!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             else
             {
-                ChangeTrainListData(TrainListDG.SelectedIndex);
-                editedRow.ChangeDBRow();
+                if (editedRow.trainAdd)
+                {
+                    ChangeTrainListData(-1);
+                    if (!DataConnection.fList.Contains(editedTrain))
+                        return;
+                        
+                    editedRow.ChangeDBRow();
+                    DataConnection.fList.Clear();
+                    DataAccess newData = new DataAccess();
+                    DataConnection.fList = newData.fList;
+                    TrainListDG.ItemsSource = null;
+                    TrainListDG.ItemsSource = DataConnection.fList;
+                }
+                else
+                {
+                    ChangeTrainListData(TrainListDG.SelectedIndex);
+                    editedRow.ChangeDBRow();
+                }
             }
         }
     }

@@ -33,7 +33,10 @@
             <MenuItem x:Name="TrainsMenuItem" Header="Потяги">
                 <MenuItem x:Name="EditDataMenuItem" Header="Редагувати"
                           Click="EditDataMenuItem_Click"/>
-                <MenuItem x:Name="AddDataMenuItem" Header="Додати"/>
+                <MenuItem x:Name="AddDataMenuItem" Header="Додати"
+                          Click="AddDataMenuItem_Click"/>
+                <MenuItem x:Name="DeleteDataMenuItem" Header="Видалити"
+                          Click="DeleteDataMenuItem_Click"/>
             </MenuItem>
 
             <MenuItem x:Name="SelectMenuItem" Header="Пошук">
