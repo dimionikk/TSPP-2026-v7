@@ -40,9 +40,10 @@
             </MenuItem>
 
             <MenuItem x:Name="SelectMenuItem" Header="Пошук">
-                <MenuItem x:Name="SelectXMenuItem" Header="За станцією призначення"/>
-                <MenuItem x:Name="SelectXYMenuItem" Header="За часом відправлення"/>
-                <MenuItem x:Name="SelectTicketsMenuItem" Header="За наявністю квитків"/>
+                <MenuItem x:Name="SelectXYMenuItem" Header="За часом відправлення"
+                          Click="SelectXYMenuItem_Click"/>
+                <MenuItem x:Name="SelectTicketsMenuItem" Header="За наявністю квитків"
+                          Click="SelectTicketsMenuItem_Click"/>
             </MenuItem>
 
             <MenuItem x:Name="AuthMenuItem" Header="Авторизація" Click="AuthMenuItem_Click"/>
@@ -82,6 +83,7 @@
                 </DataGrid.Columns>
             </DataGrid>
 
+            <!-- Панель редагування/додавання -->
             <GroupBox x:Name="trainGroupBox"
                       Header="Потяг"
                       HorizontalAlignment="Left"
@@ -124,6 +126,63 @@
                             HorizontalAlignment="Left" Margin="10,170,0,0"
                             VerticalAlignment="Top" Width="75"
                             Click="SaveBtn_Click"/>
+                </Grid>
+            </GroupBox>
+
+            <!-- Панель пошуку UC06 та UC07 -->
+            <GroupBox x:Name="searchGroupBox"
+                      Header="Пошук рейсів"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      Margin="0,5,0,0"
+                      Width="220"
+                      Visibility="Hidden">
+                <Grid VerticalAlignment="Top">
+
+                    <!-- UC06: станція + час A-B -->
+                    <Label x:Name="destSearchLabel" Content="Станція призначення"
+                           HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
+                           Visibility="Hidden"/>
+                    <ComboBox x:Name="destComboBox"
+                              HorizontalAlignment="Left" Margin="10,32,0,0"
+                              VerticalAlignment="Top" Width="190"
+                              Visibility="Hidden"/>
+
+                    <Label x:Name="timeALabel" Content="Час від (гг:хх)"
+                           HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top"
+                           Visibility="Hidden"/>
+                    <TextBox x:Name="timeATextBox"
+                             HorizontalAlignment="Left" Margin="10,82,0,0"
+                             VerticalAlignment="Top" Width="85" MaxLength="5"
+                             Visibility="Hidden"/>
+
+                    <Label x:Name="timeBLabel" Content="Час до (гг:хх)"
+                           HorizontalAlignment="Left" Margin="110,60,0,0" VerticalAlignment="Top"
+                           Visibility="Hidden"/>
+                    <TextBox x:Name="timeBTextBox"
+                             HorizontalAlignment="Left" Margin="110,82,0,0"
+                             VerticalAlignment="Top" Width="85" MaxLength="5"
+                             Visibility="Hidden"/>
+
+                    <!-- UC07: номер потяга -->
+                    <Label x:Name="trainNumSearchLabel" Content="Номер потяга"
+                           HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
+                           Visibility="Hidden"/>
+                    <TextBox x:Name="trainNumSearchTextBox"
+                             HorizontalAlignment="Left" Margin="10,32,0,0"
+                             VerticalAlignment="Top" Width="190" MaxLength="10"
+                             Visibility="Hidden"/>
+
+                    <!-- Кнопки -->
+                    <Button x:Name="selBtn" Content="Вибрати"
+                            HorizontalAlignment="Left" Margin="10,120,0,0"
+                            VerticalAlignment="Top" Width="85"
+                            Click="SelBtn_Click"/>
+
+                    <Button x:Name="resetBtn" Content="Скинути"
+                            HorizontalAlignment="Left" Margin="110,120,0,0"
+                            VerticalAlignment="Top" Width="85"
+                            Click="ResetBtn_Click"/>
                 </Grid>
             </GroupBox>
 

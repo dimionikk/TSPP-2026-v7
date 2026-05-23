@@ -22,6 +22,9 @@ namespace TrainDispatcher
         public static Train editedTrain;
         public static EditDB editedRow = new EditDB();
 
+        private SelectData selData = new SelectData();
+        private bool isSearchXY = false; 
+
         public MainWindow()
         {
             InitializeComponent();
@@ -33,6 +36,7 @@ namespace TrainDispatcher
             TrainsMenuItem.Width = 0;
 
             trainGroupBox.Visibility = Visibility.Hidden;
+            searchGroupBox.Visibility = Visibility.Hidden;
 
             DataConnection = new DataAccess();
             TrainListDG.ItemsSource = DataConnection.fList;
@@ -79,6 +83,7 @@ namespace TrainDispatcher
 
         private void EditDataMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            searchGroupBox.Visibility = Visibility.Hidden;
             trainGroupBox.Visibility = Visibility.Visible;
             TrainListDG.SelectedIndex = -1;
             editedTrain = null;
@@ -89,6 +94,7 @@ namespace TrainDispatcher
 
         private void AddDataMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            searchGroupBox.Visibility = Visibility.Hidden;
             trainGroupBox.Visibility = Visibility.Visible;
             TrainListDG.SelectedIndex = -1;
 
@@ -127,6 +133,113 @@ namespace TrainDispatcher
                 editedTrain = null;
                 trainGroupBox.Visibility = Visibility.Hidden;
             }
+        }
+
+        private void SelectXYMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            isSearchXY = true;
+            trainGroupBox.Visibility = Visibility.Hidden;
+
+            destSearchLabel.Visibility = Visibility.Visible;
+            destComboBox.Visibility = Visibility.Visible;
+            timeALabel.Visibility = Visibility.Visible;
+            timeATextBox.Visibility = Visibility.Visible;
+            timeBLabel.Visibility = Visibility.Visible;
+            timeBTextBox.Visibility = Visibility.Visible;
+            trainNumSearchLabel.Visibility = Visibility.Hidden;
+            trainNumSearchTextBox.Visibility = Visibility.Hidden;
+
+            destComboBox.Items.Clear();
+            foreach (string dest in selData.GetDestinations())
+                destComboBox.Items.Add(dest);
+
+            searchGroupBox.Visibility = Visibility.Visible;
+        }
+
+        private void SelectTicketsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            isSearchXY = false;
+            trainGroupBox.Visibility = Visibility.Hidden;
+
+            destSearchLabel.Visibility = Visibility.Hidden;
+            destComboBox.Visibility = Visibility.Hidden;
+            timeALabel.Visibility = Visibility.Hidden;
+            timeATextBox.Visibility = Visibility.Hidden;
+            timeBLabel.Visibility = Visibility.Hidden;
+            timeBTextBox.Visibility = Visibility.Hidden;
+            trainNumSearchLabel.Visibility = Visibility.Visible;
+            trainNumSearchTextBox.Visibility = Visibility.Visible;
+
+            searchGroupBox.Visibility = Visibility.Visible;
+        }
+
+        private void SelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (isSearchXY)
+            {
+                if (destComboBox.SelectedIndex < 0)
+                {
+                    MessageBox.Show("Оберіть станцію призначення!",
+                                    "Увага!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
+                TimeSpan timeA, timeB;
+                if (!TimeSpan.TryParse(timeATextBox.Text, out timeA))
+                {
+                    MessageBox.Show("Невірний формат часу A. Використовуйте формат гг:хх",
+                                    "Помилка!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+                if (!TimeSpan.TryParse(timeBTextBox.Text, out timeB))
+                {
+                    MessageBox.Show("Невірний формат часу B. Використовуйте формат гг:хх",
+                                    "Помилка!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
+                string dest = destComboBox.SelectedItem.ToString();
+                selData.SelectXY(dest, timeA, timeB);
+
+                if (selData.selectedList.Count == 0)
+                {
+                    MessageBox.Show("Потягів за вказаними критеріями не знайдено.",
+                                    "Увага!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    TrainListDG.ItemsSource = DataConnection.fList;
+                }
+                else
+                {
+                    TrainListDG.ItemsSource = selData.selectedList;
+                }
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(trainNumSearchTextBox.Text))
+                {
+                    MessageBox.Show("Введіть номер потяга!",
+                                    "Увага!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
+                selData.SelectTickets(trainNumSearchTextBox.Text.Trim());
+
+                if (selData.selectedTicketList.Count == 0)
+                {
+                    MessageBox.Show("Потяг з таким номером не знайдено.",
+                                    "Увага!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    TrainListDG.ItemsSource = DataConnection.fList;
+                }
+                else
+                {
+                    TrainListDG.ItemsSource = selData.selectedTicketList;
+                }
+            }
+        }
+
+        private void ResetBtn_Click(object sender, RoutedEventArgs e)
+        {
+            TrainListDG.ItemsSource = DataConnection.fList;
+            searchGroupBox.Visibility = Visibility.Hidden;
         }
 
         private void TrainListDG_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -221,7 +334,7 @@ namespace TrainDispatcher
                     ChangeTrainListData(-1);
                     if (!DataConnection.fList.Contains(editedTrain))
                         return;
-                        
+
                     editedRow.ChangeDBRow();
                     DataConnection.fList.Clear();
                     DataAccess newData = new DataAccess();

@@ -111,6 +111,7 @@
     <Compile Include="LogInForm.xaml.cs">
       <DependentUpon>LogInForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SelectData.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
