@@ -23,7 +23,13 @@ namespace TrainDispatcher
         public static EditDB editedRow = new EditDB();
 
         private SelectData selData = new SelectData();
-        private bool isSearchXY = false; 
+        private bool isSearchXY = false;
+
+        // Змінні для збереження критеріїв пошуку
+        public static string selectedCity = "";
+        public static TimeSpan timeFlightA = TimeSpan.Zero;
+        public static TimeSpan timeFlightB = TimeSpan.Zero;
+        public static string trainNumSearch = "";
 
         public MainWindow()
         {
@@ -135,6 +141,7 @@ namespace TrainDispatcher
             }
         }
 
+        // UC06 — пошук за часом відправлення
         private void SelectXYMenuItem_Click(object sender, RoutedEventArgs e)
         {
             isSearchXY = true;
@@ -156,6 +163,7 @@ namespace TrainDispatcher
             searchGroupBox.Visibility = Visibility.Visible;
         }
 
+        // UC07 — пошук за наявністю квитків
         private void SelectTicketsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             isSearchXY = false;
@@ -173,6 +181,7 @@ namespace TrainDispatcher
             searchGroupBox.Visibility = Visibility.Visible;
         }
 
+        // Кнопка Вибрати
         private void SelBtn_Click(object sender, RoutedEventArgs e)
         {
             if (isSearchXY)
@@ -198,8 +207,11 @@ namespace TrainDispatcher
                     return;
                 }
 
-                string dest = destComboBox.SelectedItem.ToString();
-                selData.SelectXY(dest, timeA, timeB);
+                selectedCity = destComboBox.SelectedItem.ToString();
+                timeFlightA = timeA;
+                timeFlightB = timeB;
+
+                selData.SelectXY(selectedCity, timeA, timeB);
 
                 if (selData.selectedList.Count == 0)
                 {
@@ -221,7 +233,8 @@ namespace TrainDispatcher
                     return;
                 }
 
-                selData.SelectTickets(trainNumSearchTextBox.Text.Trim());
+                trainNumSearch = trainNumSearchTextBox.Text.Trim();
+                selData.SelectTickets(trainNumSearch);
 
                 if (selData.selectedTicketList.Count == 0)
                 {
@@ -236,6 +249,19 @@ namespace TrainDispatcher
             }
         }
 
+        // Кнопка Зберегти у панелі пошуку
+        private void SaveSelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            selData.WriteData(
+                selData.selectedList,
+                selData.selectedTicketList,
+                selectedCity,
+                timeFlightA,
+                timeFlightB,
+                trainNumSearch);
+        }
+
+        // Кнопка Скинути
         private void ResetBtn_Click(object sender, RoutedEventArgs e)
         {
             TrainListDG.ItemsSource = DataConnection.fList;

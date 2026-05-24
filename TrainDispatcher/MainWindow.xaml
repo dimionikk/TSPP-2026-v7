@@ -16,9 +16,15 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
         <Menu x:Name="MainMenu"
               Grid.Row="0"
+              Grid.Column="0"
+              Grid.ColumnSpan="2"
               HorizontalAlignment="Left"
               VerticalAlignment="Top"
               Height="Auto"
@@ -50,143 +56,145 @@
 
         </Menu>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <DataGrid x:Name="TrainListDG"
+                  Grid.Row="1"
+                  Grid.Column="0"
+                  HorizontalAlignment="Left"
+                  Margin="5,5,20,10"
+                  VerticalAlignment="Top"
+                  Height="420"
+                  Width="Auto"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding}"
+                  MouseDoubleClick="TrainListDG_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID"
+                                    Binding="{Binding id}"
+                                    Width="Auto"/>
+                <DataGridTextColumn Header="Номер потяга"
+                                    Binding="{Binding train_number}"
+                                    Width="Auto"/>
+                <DataGridTextColumn Header="Станція призначення"
+                                    Binding="{Binding destination}"
+                                    Width="Auto"/>
+                <DataGridTextColumn Header="Час відправлення"
+                                    Binding="{Binding departure_time}"
+                                    Width="Auto"/>
+                <DataGridTextColumn Header="Час у дорозі"
+                                    Binding="{Binding travel_time}"
+                                    Width="Auto"/>
+                <DataGridTextColumn Header="Кількість квитків"
+                                    Binding="{Binding tickets_available}"
+                                    Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
-            <DataGrid x:Name="TrainListDG"
-                      HorizontalAlignment="Left"
-                      Margin="5,5,20,10"
-                      VerticalAlignment="Top"
-                      Height="420"
-                      Width="Auto"
-                      AutoGenerateColumns="False"
-                      ItemsSource="{Binding}"
-                      MouseDoubleClick="TrainListDG_MouseDoubleClick">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID"
-                                        Binding="{Binding id}"
-                                        Width="Auto"/>
-                    <DataGridTextColumn Header="Номер потяга"
-                                        Binding="{Binding train_number}"
-                                        Width="Auto"/>
-                    <DataGridTextColumn Header="Станція призначення"
-                                        Binding="{Binding destination}"
-                                        Width="Auto"/>
-                    <DataGridTextColumn Header="Час відправлення"
-                                        Binding="{Binding departure_time}"
-                                        Width="Auto"/>
-                    <DataGridTextColumn Header="Час у дорозі"
-                                        Binding="{Binding travel_time}"
-                                        Width="Auto"/>
-                    <DataGridTextColumn Header="Кількість квитків"
-                                        Binding="{Binding tickets_available}"
-                                        Width="Auto"/>
-                </DataGrid.Columns>
-            </DataGrid>
+        <GroupBox x:Name="trainGroupBox"
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  Header="Потяг"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Margin="0,5,0,0"
+                  Width="220"
+                  Visibility="Hidden">
+            <Grid VerticalAlignment="Top">
+                <Label x:Name="numTrainLabel" Content="Номер потяга"
+                       HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="numTrainTextBox"
+                         HorizontalAlignment="Left" Margin="130,12,0,0"
+                         VerticalAlignment="Top" Width="70" MaxLength="6"/>
 
-            <!-- Панель редагування/додавання -->
-            <GroupBox x:Name="trainGroupBox"
-                      Header="Потяг"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Margin="0,5,0,0"
-                      Width="220"
-                      Visibility="Hidden">
-                <Grid VerticalAlignment="Top">
-                    <Label x:Name="numTrainLabel" Content="Номер потяга"
-                           HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="numTrainTextBox"
-                             HorizontalAlignment="Left" Margin="130,12,0,0"
-                             VerticalAlignment="Top" Width="70" MaxLength="6"/>
+                <Label x:Name="destTrainLabel" Content="Станція призначення"
+                       HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="destTrainTextBox"
+                         HorizontalAlignment="Left" Margin="130,42,0,0"
+                         VerticalAlignment="Top" Width="70"/>
 
-                    <Label x:Name="destTrainLabel" Content="Станція призначення"
-                           HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="destTrainTextBox"
-                             HorizontalAlignment="Left" Margin="130,42,0,0"
-                             VerticalAlignment="Top" Width="70"/>
+                <Label x:Name="depTimeLabel" Content="Час відправлення"
+                       HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="depTimeTextBox"
+                         HorizontalAlignment="Left" Margin="130,72,0,0"
+                         VerticalAlignment="Top" Width="70" MaxLength="5"/>
 
-                    <Label x:Name="depTimeLabel" Content="Час відправлення"
-                           HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="depTimeTextBox"
-                             HorizontalAlignment="Left" Margin="130,72,0,0"
-                             VerticalAlignment="Top" Width="70" MaxLength="5"/>
+                <Label x:Name="travTimeLabel" Content="Час у дорозі"
+                       HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="travTimeTextBox"
+                         HorizontalAlignment="Left" Margin="130,102,0,0"
+                         VerticalAlignment="Top" Width="70" MaxLength="5"/>
 
-                    <Label x:Name="travTimeLabel" Content="Час у дорозі"
-                           HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="travTimeTextBox"
-                             HorizontalAlignment="Left" Margin="130,102,0,0"
-                             VerticalAlignment="Top" Width="70" MaxLength="5"/>
+                <Label x:Name="ticketsLabel" Content="Кількість квитків"
+                       HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="ticketsTextBox"
+                         HorizontalAlignment="Left" Margin="130,132,0,0"
+                         VerticalAlignment="Top" Width="70" MaxLength="4"/>
 
-                    <Label x:Name="ticketsLabel" Content="Кількість квитків"
-                           HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="ticketsTextBox"
-                             HorizontalAlignment="Left" Margin="130,132,0,0"
-                             VerticalAlignment="Top" Width="70" MaxLength="4"/>
+                <Button x:Name="saveBtn" Content="Зберегти"
+                        HorizontalAlignment="Left" Margin="10,170,0,0"
+                        VerticalAlignment="Top" Width="75"
+                        Click="SaveBtn_Click"/>
+            </Grid>
+        </GroupBox>
 
-                    <Button x:Name="saveBtn" Content="Зберегти"
-                            HorizontalAlignment="Left" Margin="10,170,0,0"
-                            VerticalAlignment="Top" Width="75"
-                            Click="SaveBtn_Click"/>
-                </Grid>
-            </GroupBox>
+        <GroupBox x:Name="searchGroupBox"
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  Header="Пошук рейсів"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Margin="0,5,0,0"
+                  Width="220"
+                  Visibility="Hidden">
+            <Grid VerticalAlignment="Top">
 
-            <!-- Панель пошуку UC06 та UC07 -->
-            <GroupBox x:Name="searchGroupBox"
-                      Header="Пошук рейсів"
-                      HorizontalAlignment="Left"
-                      VerticalAlignment="Top"
-                      Margin="0,5,0,0"
-                      Width="220"
-                      Visibility="Hidden">
-                <Grid VerticalAlignment="Top">
+                <Label x:Name="destSearchLabel" Content="Станція призначення"
+                       HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
+                       Visibility="Hidden"/>
+                <ComboBox x:Name="destComboBox"
+                          HorizontalAlignment="Left" Margin="10,32,0,0"
+                          VerticalAlignment="Top" Width="190"
+                          Visibility="Hidden"/>
 
-                    <!-- UC06: станція + час A-B -->
-                    <Label x:Name="destSearchLabel" Content="Станція призначення"
-                           HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
-                           Visibility="Hidden"/>
-                    <ComboBox x:Name="destComboBox"
-                              HorizontalAlignment="Left" Margin="10,32,0,0"
-                              VerticalAlignment="Top" Width="190"
-                              Visibility="Hidden"/>
+                <Label x:Name="timeALabel" Content="Час від (гг:хх)"
+                       HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top"
+                       Visibility="Hidden"/>
+                <TextBox x:Name="timeATextBox"
+                         HorizontalAlignment="Left" Margin="10,82,0,0"
+                         VerticalAlignment="Top" Width="85" MaxLength="5"
+                         Visibility="Hidden"/>
 
-                    <Label x:Name="timeALabel" Content="Час від (гг:хх)"
-                           HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top"
-                           Visibility="Hidden"/>
-                    <TextBox x:Name="timeATextBox"
-                             HorizontalAlignment="Left" Margin="10,82,0,0"
-                             VerticalAlignment="Top" Width="85" MaxLength="5"
-                             Visibility="Hidden"/>
+                <Label x:Name="timeBLabel" Content="Час до (гг:хх)"
+                       HorizontalAlignment="Left" Margin="110,60,0,0" VerticalAlignment="Top"
+                       Visibility="Hidden"/>
+                <TextBox x:Name="timeBTextBox"
+                         HorizontalAlignment="Left" Margin="110,82,0,0"
+                         VerticalAlignment="Top" Width="85" MaxLength="5"
+                         Visibility="Hidden"/>
 
-                    <Label x:Name="timeBLabel" Content="Час до (гг:хх)"
-                           HorizontalAlignment="Left" Margin="110,60,0,0" VerticalAlignment="Top"
-                           Visibility="Hidden"/>
-                    <TextBox x:Name="timeBTextBox"
-                             HorizontalAlignment="Left" Margin="110,82,0,0"
-                             VerticalAlignment="Top" Width="85" MaxLength="5"
-                             Visibility="Hidden"/>
+                <Label x:Name="trainNumSearchLabel" Content="Номер потяга"
+                       HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
+                       Visibility="Hidden"/>
+                <TextBox x:Name="trainNumSearchTextBox"
+                         HorizontalAlignment="Left" Margin="10,32,0,0"
+                         VerticalAlignment="Top" Width="190" MaxLength="10"
+                         Visibility="Hidden"/>
 
-                    <!-- UC07: номер потяга -->
-                    <Label x:Name="trainNumSearchLabel" Content="Номер потяга"
-                           HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
-                           Visibility="Hidden"/>
-                    <TextBox x:Name="trainNumSearchTextBox"
-                             HorizontalAlignment="Left" Margin="10,32,0,0"
-                             VerticalAlignment="Top" Width="190" MaxLength="10"
-                             Visibility="Hidden"/>
+                <Button x:Name="selBtn" Content="Вибрати"
+                        HorizontalAlignment="Left" Margin="10,120,0,0"
+                        VerticalAlignment="Top" Width="85"
+                        Click="SelBtn_Click"/>
 
-                    <!-- Кнопки -->
-                    <Button x:Name="selBtn" Content="Вибрати"
-                            HorizontalAlignment="Left" Margin="10,120,0,0"
-                            VerticalAlignment="Top" Width="85"
-                            Click="SelBtn_Click"/>
+                <Button x:Name="saveSelBtn" Content="Зберегти"
+                        HorizontalAlignment="Left" Margin="110,120,0,0"
+                        VerticalAlignment="Top" Width="85"
+                        Click="SaveSelBtn_Click"/>
 
-                    <Button x:Name="resetBtn" Content="Скинути"
-                            HorizontalAlignment="Left" Margin="110,120,0,0"
-                            VerticalAlignment="Top" Width="85"
-                            Click="ResetBtn_Click"/>
-                </Grid>
-            </GroupBox>
-
-        </StackPanel>
+                <Button x:Name="resetBtn" Content="Скинути"
+                        HorizontalAlignment="Left" Margin="10,155,0,0"
+                        VerticalAlignment="Top" Width="85"
+                        Click="ResetBtn_Click"/>
+            </Grid>
+        </GroupBox>
 
     </Grid>
 </Window>
