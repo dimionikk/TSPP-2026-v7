@@ -112,6 +112,9 @@
       <DependentUpon>LogInForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="SelectData.cs" />
+    <Compile Include="EditForm.xaml.cs">
+      <DependentUpon>EditForm.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -125,6 +128,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="LogInForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

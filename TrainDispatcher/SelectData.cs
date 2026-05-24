@@ -173,7 +173,7 @@ namespace TrainDispatcher
             }
         }
 
-        // Деструктор — звільнення ресурсів Word
+        // Звільнення ресурсів Word
         ~SelectData()
         {
             if (wordDoc != null)
