@@ -45,10 +45,8 @@ namespace TrainDispatcher
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + char.ConvertFromUtf32(13) +
-                    char.ConvertFromUtf32(13) + "Для завантаження даних " +
-                    "виконайте команду Файл-Завантажити", "Помилка",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.ErrorShow(ex, "Для завантаження даних виконайте команду Файл-Завантажити",
+                    "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

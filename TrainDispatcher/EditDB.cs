@@ -55,8 +55,7 @@ namespace TrainDispatcher
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + char.ConvertFromUtf32(13) +
-                    char.ConvertFromUtf32(13) + "Помилка з'єднання з БД",
+                MainWindow.ErrorShow(ex, "Помилка з'єднання з БД",
                     "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -77,8 +76,7 @@ namespace TrainDispatcher
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + char.ConvertFromUtf32(13) +
-                    char.ConvertFromUtf32(13) + "Помилка з'єднання з БД",
+                MainWindow.ErrorShow(ex, "Помилка з'єднання з БД",
                     "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

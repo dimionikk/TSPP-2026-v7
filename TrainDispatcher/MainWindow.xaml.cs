@@ -25,7 +25,14 @@ namespace TrainDispatcher
             InitializeComponent();
         }
 
-        private void InfoTrainForm_Loaded(object sender, RoutedEventArgs e)
+        public static void ErrorShow(Exception ex, string msgStr, string msgName,
+                                    MessageBoxButton msgBtn, MessageBoxImage msgImg)
+        {
+            MessageBox.Show(ex.Message + char.ConvertFromUtf32(13) +
+                char.ConvertFromUtf32(13) + msgStr, msgName, msgBtn, msgImg);
+        }
+
+        public void InfoTrainForm_Loaded(object sender, RoutedEventArgs e)
         {
             DataConnection = new DataAccess();
             TrainListDG.ItemsSource = DataConnection.fList;

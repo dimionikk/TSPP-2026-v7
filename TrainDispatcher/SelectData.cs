@@ -134,8 +134,7 @@ namespace TrainDispatcher
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + char.ConvertFromUtf32(13) +
-                    "Помістіть файл Шаблон_Пошуку_потягів.dot" +
+                MainWindow.ErrorShow(ex, "Помістіть файл Шаблон_Пошуку_потягів.dot" +
                     char.ConvertFromUtf32(13) +
                     "у каталог із exe-файлом програми і повторіть збереження",
                     "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -167,8 +166,7 @@ namespace TrainDispatcher
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + char.ConvertFromUtf32(13) +
-                    "Помилка збереження відібраних даних",
+                MainWindow.ErrorShow(ex, "Помилка збереження відібраних даних",
                     "Помилка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
